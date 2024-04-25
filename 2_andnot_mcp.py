@@ -1,3 +1,6 @@
+'''2. Generate ANDNOT function using McCulloch-Pitts neural net by a python program.
+'''
+
 def andnot_function(x1, x2, w1, w2, theta=1):
     """
     Perform the ANDNOT operation using the McCulloch-Pitts neural network model.
