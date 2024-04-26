@@ -1,8 +1,3 @@
-'''Write a Python Program using Perceptron Neural Network to recognise even and odd numbers.
-Given numbers are in ASCII form 0 to 9
-'''
-
-
 import numpy as np
 
 # Define the input-output mapping
@@ -30,11 +25,11 @@ while True:
 # Define weights and bias
 weights = 1
 bias = 2
-sum = 0
 
 epoch = 15
 for j in range(epoch):
     predicted = 0
+    sum = 0  # Reset sum for each iteration
     for i in range(len(inputs_array[user_input])):
         sum += inputs_array[user_input][i] * weights
     output = sum + bias
@@ -42,16 +37,19 @@ for j in range(epoch):
     # Step function
     if output > 0:
         predicted = 1
-        print("The number is even.")
     else:
         predicted = 0
-        print("The number is odd.")
 
-    print("Expected ", expected_output[user_input])
     if expected_output[user_input] == predicted:
         break
     else:
         for k in range(len(inputs_array[user_input])):
             weights = weights + ((0.1) * (expected_output[user_input] - predicted) * inputs_array[user_input][k])
-            print("Weights update ", weights)
-        print("Weights", weights)
+
+# Display final output
+if user_input == 0:
+    print("The number 0 is neither odd nor even.")
+elif predicted == 1:
+    print("The number is even.")
+else:
+    print("The number is odd.")
