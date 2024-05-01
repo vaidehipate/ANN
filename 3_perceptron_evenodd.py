@@ -15,12 +15,12 @@ expected_output = np.array([[1],[0],[1],[0],[1],[0],[1],[0],[1],[0]])
 
 # Get user input
 while True:
-    user_input = input("Enter one of the following numbers: 0, 1, 2, 3, 4, 5, 6, 7, 8\n")
+    user_input = input("Enter one of the following numbers: 0, 1, 2, 3, 4, 5, 6, 7, 8 , 9\n")
     if user_input.isdigit() and int(user_input) in range(9):
         user_input = int(user_input)
         break
     else:
-        print("Invalid input. Please enter a number between 0 and 8.")
+        print("Invalid input. Please enter a number between 0 and 9.")
 
 # Define weights and bias
 weights = 1
