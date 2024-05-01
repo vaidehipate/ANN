@@ -52,6 +52,17 @@ def plot_decision_regions(X, y, classifier):
 
 # Example data
 np.random.seed(42)
+
+'''
+*if asked for take input from user :
+
+# User input for number of data points
+num_points = int(input("Enter the number of data points: "))
+
+# Generating random data
+X = np.random.rand(num_points, 2)
+
+'''
 X = np.random.rand(10, 2)
 y = np.where(X[:, 0] + X[:, 1] > 1, 1, -1)
 print(X)
