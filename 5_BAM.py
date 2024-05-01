@@ -14,7 +14,7 @@ def recall_forward(input_pattern, weights):
     return recalled_pattern
 
 def recall_backward(input_pattern, weights):
-    recalled_pattern = np.sign(np.dot(input_pattern, weights.T))
+    recalled_pattern = np.sign(np.dot(input_pattern.T, weights))
     return recalled_pattern
 
 # Define patterns
@@ -31,3 +31,50 @@ print(f"Recalled Pattern 1 (Forward): {output_pattern1}")
 # Recall backward
 output_pattern2 = recall_backward(pattern2, weights)
 print(f"Recalled Pattern 2 (Backward): {output_pattern2}")
+
+'''
+if asked for user inputs :
+
+print("Enter your patterns (each pattern should be a row vector):")
+patterns = []
+while True:
+    row = input("Enter pattern row (comma-separated values), or type 'done' to finish: ").strip()
+    if row.lower() == 'done':
+        break
+    patterns.append(list(map(int, row.split(','))))
+patterns = np.array(patterns)
+
+# Train BAM model
+pattern1 = patterns[0].reshape(1, -1)
+pattern2 = patterns[1].reshape(1, -1)
+weights = train_BAM(pattern1, pattern2)
+
+# Recall forward
+output_pattern1 = recall_forward(patterns, weights)
+print(f"Recalled Patterns (Forward): {output_pattern1}")
+
+# Recall backward
+output_pattern2 = recall_backward(patterns, weights)
+print(f"Recalled Patterns (Backward): {output_pattern2}")
+
+'''
+
+'''
+
+example output to enter :
+
+Enter your patterns (each pattern should be a row vector):
+Enter pattern row (comma-separated values), or type 'done' to finish: 1, 1, 1, -1, -1
+Enter pattern row (comma-separated values), or type 'done' to finish: -1, -1, -1, 1, 1
+Enter pattern row (comma-separated values), or type 'done' to finish: -1, 1, -1, 1, -1
+Enter pattern row (comma-separated values), or type 'done' to finish: done
+Recalled Patterns (Forward): [[ 1.  1.  1. -1. -1.]
+ [-1. -1. -1.  1.  1.]
+ [-1.  1. -1.  1. -1.]]
+Recalled Patterns (Backward): [[ 1. -1. -1.]
+ [ 1. -1.  1.]
+ [ 1. -1. -1.]
+ [-1.  1.  1.]
+ [-1.  1. -1.]]
+
+'''
