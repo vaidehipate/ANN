@@ -14,7 +14,7 @@ def recall_forward(input_pattern, weights):
     return recalled_pattern
 
 def recall_backward(input_pattern, weights):
-    recalled_pattern = np.sign(np.dot(input_pattern.T, weights))
+    recalled_pattern = np.sign(np.dot(input_pattern, weights.T))
     return recalled_pattern
 
 # Define patterns
