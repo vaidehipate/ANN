@@ -11,11 +11,11 @@ inputs_array = np.array([[0,0,1,1,0,0,0,0],
                       [0,0,1,1,0,1,1,1],
                       [0,0,1,1,1,0,0,0],
                       [0,0,1,1,1,0,0,1]])
-expected_output = np.array([[1],[0],[1],[0],[1],[0],[1],[0],[1],[0]])
+expected_output = np.array([[0],[0],[1],[0],[1],[0],[1],[0],[1],[0]])
 
 # Get user input
 while True:
-    user_input = input("Enter one of the following numbers: 0, 1, 2, 3, 4, 5, 6, 7, 8 , 9\n")
+    user_input = input("Enter one of the following numbers:  1, 2, 3, 4, 5, 6, 7, 8 , 9\n")
     if user_input.isdigit() and int(user_input) in range(9):
         user_input = int(user_input)
         break
