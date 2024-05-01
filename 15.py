@@ -1,86 +1,42 @@
+import tensorflow as tf
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
+# Load Iris dataset
+iris = load_iris()
+X, y = iris.data, iris.target
 
+# Split dataset into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-import matplotlib.pyplot as plt
-_________________________________________________________________________________________________________________________________________________________________________________________________________________
-from tensorflow.keras.datasets import mnist 
-(X_train, y_train), (X_test, y_test) = mnist.load_data() 
-print(f'X_train shape: {X_train.shape}, X_test shape: {X_test.shape}')
-_________________________________________________________________________________________________________________________________________________________________________________________________________________
+# Standardize features
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
 
-from tensorflow.keras.utils import to_categorical 
+# Reshape input for CNN
+X_train = X_train.reshape(X_train.shape[0], X_train.shape[1], 1)
+X_test = X_test.reshape(X_test.shape[0], X_test.shape[1], 1)
 
-# convert image datatype from integers to floats 
-X_train = X_train.astype('float32') 
-X_test = X_test.astype('float32') 
+# Build CNN model
+model = tf.keras.Sequential([
+    tf.keras.layers.Conv1D(32, 3, activation='relu', input_shape=(X_train.shape[1], 1)),
+    tf.keras.layers.MaxPooling1D(2),
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(64, activation='relu'),
+    tf.keras.layers.Dense(3, activation='softmax')
+])
 
-# normalising piel values 
-X_train = X_train/255.0
-X_test = X_test/255.0
+# Compile the model
+model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])
 
-# reshape images to add channel dimension 
-X_train = X_train.reshape(X_train.shape[0], X_train.shape[1], X_train.shape[2], 1) 
-X_test = X_test.reshape(X_test.shape[0], X_test.shape[1], X_test.shape[2], 1) 
+# Train the model
+model.fit(X_train, y_train, epochs=50, batch_size=16, verbose=1)
 
-# One-hot encoding label 
-y_train = to_categorical(y_train) 
-y_test = to_categorical(y_test)
-
-_________________________________________________________________________________________________________________________________________________________________________________________________________________
-
-
-from tensorflow.keras.models import Sequential 
-from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Flatten 
-
-model = Sequential() 
-
-# Layer 1 
-# Conv 1 
-model.add(Conv2D(filters=6, kernel_size=(5, 5), strides=1, activation = 'relu', input_shape = (28,28,1))) 
-# Pooling 1 
-model.add(MaxPooling2D(pool_size=(2, 2), strides = 2)) 
-
-# Layer 2 
-# Conv 2 
-model.add(Conv2D(filters=16, kernel_size=(5, 5), strides=1, activation='relu')) 
-# Pooling 2 
-model.add(MaxPooling2D(pool_size = 2, strides = 2)) 
-
-# Flatten 
-model.add(Flatten()) 
-
-# Layer 3 
-# Fully connected layer 1 
-model.add(Dense(units=120, activation='relu')) 
-
-#Layer 4 
-#Fully connected layer 2 
-model.add(Dense(units=84, activation='relu')) 
-
-#Layer 5 
-#Output Layer 
-model.add(Dense(units=10, activation='softmax')) 
-
-model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
-
-_________________________________________________________________________________________________________________________________________________________________________________________________________________
-
-
-epochs = 20
-batch_size = 512
-history = model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, 
-                    steps_per_epoch=X_train.shape[0]//batch_size, 
-                    validation_data=(X_test, y_test), 
-                    validation_steps=X_test.shape[0]//batch_size, verbose = 1) 
-
-_, acc = model.evaluate(X_test, y_test, verbose = 1) 
-print('%.3f' % (acc * 100.0)) 
-
-_________________________________________________________________________________________________________________________________________________________________________________________________________________
-
-plt.figure(figsize=(10,6)) 
-plt.plot(history.history['accuracy'], color = 'blue', label = 'train') 
-plt.plot(history.history['val_accuracy'], color = 'red', label = 'val') 
-plt.legend() 
-plt.title('Accuracy') 
-plt.show()
+# Evaluate the model
+loss, accuracy = model.evaluate(X_test, y_test, verbose=0)
+print("Test Loss:", loss)
+print("Test Accuracy:", accuracy)
