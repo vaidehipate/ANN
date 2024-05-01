@@ -109,9 +109,14 @@ plt.show()
 
 --BINARY STEP--
 
+    H(x) = 
+0  ,   if x < 0
+0.5 ,  if x = 0
+1 ,    if x > 0
+
+
 def binarystep(x):
-    z = (np.exp(x)/np.exp(np.sum(x)))
-    return np.heaviside(x,1)
+    return np.heaviside(x,0.5)
 
 x = np.linspace(-10,10)
 y = binarystep(x)
